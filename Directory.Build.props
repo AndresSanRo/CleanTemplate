@@ -1,0 +1,8 @@
+<Project>
+	<PropertyGroup Label="SDK Versions">
+		<NetCoreTargetVersion>net8.0</NetCoreTargetVersion>
+		<LangVersion>Default</LangVersion>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+	</PropertyGroup>
+</Project>
