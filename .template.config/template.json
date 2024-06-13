@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Andrés Sánchez Robleño",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "classifications": [ "Common", "Console" ],
+  "identity": "AndresSanRoCleanTemplate",
+  "name": "AndresSanRo Clean Architecture Application",
+  "shortName": "asr-clean",
+  "sources": [
+    {
+      "exclude": [
+        "**/[Bb]in/**",
+        "**/[Oo]bj/**",
+        "**/template.json",
+        "**/*.nuspec"
+      ]
+    }
+  ],
+
+  "symbols": {
+    "templateName": {
+      "type": "parameter",
+      "defaultValue": "CleanProject",
+      "replaces": "CleanTemplate",
+      "FileRename": "CleanTemplate"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+	<metadata>
+		<id>CleanTemplate</id>
+		<title>AndresSanRo Clean Architecture Application</title>
+		<version>1.0.0</version>
+		<authors>AndresSanRo</authors>
+		<language>en-US</language>
+		<license type="expression">MIT</license>
+		<projectUrl>https://github.com/AndresSanRo/CleanTemplate</projectUrl>
+		<description>
+			AndresSanRo Clean Architecture Application
+		</description>
+		<releaseNotes>
+			Minor updates to dependencies.
+		</releaseNotes>
+		<packageTypes>
+			<packageType name="Template" />
+		</packageTypes>
+		<tags>Web ASP.NET "Clean Architecture" ddd domain-driven-design clean-architecture clean architecture SOLID</tags>
+		<readme>README.md</readme>
+	</metadata>
+	<files>
+		<file src=".\**" target="content" exclude="**\bin\**;**\obj\**;**\.git\**;**\.github\**;**\*.user;**\.vs\**;**\.gitignore;" />
+		<file src="README.md" />
+		<file src=".dockerignore" />
+	</files>
+</package>

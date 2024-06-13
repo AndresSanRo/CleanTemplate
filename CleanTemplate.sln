@@ -3,16 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34928.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanTemplate.Presentation", "CleanTemplate.Presentation\CleanTemplate.Presentation.csproj", "{75A40B76-FACB-4F42-BFF3-700EA88932A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.Presentation", "CleanTemplate.Presentation\CleanTemplate.Presentation.csproj", "{75A40B76-FACB-4F42-BFF3-700EA88932A5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00 - Solution Items", "00 - Solution Items", "{DAF3E132-BAA4-4C55-9279-54B3E00166B7}"
 	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
 		.gitignore = .gitignore
+		CleanTemplate.nuspec = CleanTemplate.nuspec
 		Directory.Build.props = Directory.Build.props
 		Directory.Packages.props = Directory.Packages.props
 		LICENSE = LICENSE
 		nuget.config = nuget.config
 		README.md = README.md
+		.template.config\template.json = .template.config\template.json
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Presentation", "01 - Presentation", "{BE88BC40-1921-4D76-BDE9-FFCC3AECC0E3}"
