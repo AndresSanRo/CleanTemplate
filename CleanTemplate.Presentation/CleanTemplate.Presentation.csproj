@@ -15,6 +15,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\CleanTemplate.Core\CleanTemplate.Core.csproj" />
+	  <ProjectReference Include="..\CleanTemplate.Infrastructure\CleanTemplate.Infrastructure.csproj" />
 	</ItemGroup>
 
 </Project>
