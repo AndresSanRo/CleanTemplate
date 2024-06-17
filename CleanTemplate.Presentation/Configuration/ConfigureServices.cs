@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Asp.Versioning;
+using AutoMapper;
 using CleanTemplate.Core.Dtos.Profiles;
 using CleanTemplate.Core.Interfaces.Infrastructure;
 using CleanTemplate.Core.Interfaces.Services;
@@ -62,6 +63,26 @@ namespace CleanTemplate.Presentation
             IMapper mapper = mapperConfig.CreateMapper();
 
             services.AddSingleton(mapper);
+
+            return services;
+        }
+
+        public static IServiceCollection AddVersioning(this IServiceCollection services)
+        {
+            services.AddApiVersioning(options =>
+            {
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.ReportApiVersions = true;
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.ApiVersionReader = ApiVersionReader.Combine(
+                    new UrlSegmentApiVersionReader(),
+                    new HeaderApiVersionReader("x-api-version"),
+                    new QueryStringApiVersionReader("v"));
+            }).AddApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'V.v";
+                options.SubstituteApiVersionInUrl = true;
+            });
 
             return services;
         }
