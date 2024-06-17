@@ -8,6 +8,7 @@
 
 # To Do
 
+- Do Full CRUD
 - Unit Test
 - Functional Tests
 - Docker
