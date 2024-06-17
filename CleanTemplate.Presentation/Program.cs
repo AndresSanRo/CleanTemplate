@@ -11,8 +11,13 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDatabaseContext(builder.Configuration);
 builder.Services.AddDI();
+builder.Services.AddCustomProblemDetails();
+builder.Services.AddAutoMapper();
 
 var app = builder.Build();
+
+app.UseStatusCodePages();
+app.UseExceptionHandler("/error");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

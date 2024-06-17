@@ -1,9 +1,9 @@
-﻿using CleanTemplate.Core.Entities;
+﻿using CleanTemplate.Core.Dtos;
 
 namespace CleanTemplate.Core.Interfaces.Services
 {
     public interface IBooksService
     {
-        public Task<Book?> GetBookByIdAsync(int id);
+        public Task<BookDto?> GetBookByIdAsync(int id);
     }
 }
