@@ -18,15 +18,15 @@ namespace CleanTemplate.Presentation.Controllers.V1._0._0
 
         [HttpGet("{id}")]
         [ProducesResponseType<Book>(StatusCodes.Status200OK)]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(401)]
-        [ProducesResponseType(404)]
-        [ProducesResponseType(500)]
+        [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType<ProblemDetails>(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType<ProblemDetails>(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetById([FromRoute] int id) 
         { 
             if (id <= 0) 
             {
-                return BadRequest();
+               throw new ArgumentOutOfRangeException(nameof(id), "Id must be greater than 0.");
             }
 
             var book = await _booksService.GetBookByIdAsync(id);

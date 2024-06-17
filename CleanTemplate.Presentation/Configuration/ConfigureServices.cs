@@ -38,5 +38,16 @@ namespace CleanTemplate.Presentation
 
             return services;
         }
+
+        public static void AddCustomProblemDetails(this IServiceCollection services)
+        {
+            services.AddProblemDetails(options => 
+                options.CustomizeProblemDetails = ctx =>
+                {
+                    ctx.ProblemDetails.Extensions.Add("trace-id", ctx.HttpContext.TraceIdentifier);
+                    ctx.ProblemDetails.Extensions.Add("instance", $"{ctx.HttpContext.Request.Method} {ctx.HttpContext.Request.Path}");
+                });
+            services.AddExceptionHandler<ProblemDetailsExceptionHandler>();
+        }
     }
 }
