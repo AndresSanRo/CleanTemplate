@@ -12,6 +12,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDatabaseContext(builder.Configuration);
 builder.Services.AddDI();
 builder.Services.AddCustomProblemDetails();
+builder.Services.AddAutoMapper();
 
 var app = builder.Build();
 

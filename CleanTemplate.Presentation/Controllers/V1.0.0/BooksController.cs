@@ -1,4 +1,4 @@
-﻿using CleanTemplate.Core.Entities;
+﻿using CleanTemplate.Core.Dtos;
 using CleanTemplate.Core.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +17,7 @@ namespace CleanTemplate.Presentation.Controllers.V1._0._0
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType<Book>(StatusCodes.Status200OK)]
+        [ProducesResponseType<BookDto>(StatusCodes.Status200OK)]
         [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
         [ProducesResponseType<ProblemDetails>(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

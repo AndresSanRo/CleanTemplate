@@ -1,4 +1,6 @@
-﻿using CleanTemplate.Core.Interfaces.Infrastructure;
+﻿using AutoMapper;
+using CleanTemplate.Core.Dtos.Profiles;
+using CleanTemplate.Core.Interfaces.Infrastructure;
 using CleanTemplate.Core.Interfaces.Services;
 using CleanTemplate.Core.Services;
 using CleanTemplate.Infrastructure.Context;
@@ -48,6 +50,20 @@ namespace CleanTemplate.Presentation
                     ctx.ProblemDetails.Extensions.Add("instance", $"{ctx.HttpContext.Request.Method} {ctx.HttpContext.Request.Path}");
                 });
             services.AddExceptionHandler<ProblemDetailsExceptionHandler>();
+        }
+
+        public static IServiceCollection AddAutoMapper(this IServiceCollection services)
+        {
+            var mapperConfig = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<BookDtoProfile>();
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+
+            services.AddSingleton(mapper);
+
+            return services;
         }
     }
 }
