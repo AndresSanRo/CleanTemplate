@@ -1,11 +1,13 @@
-﻿using CleanTemplate.Core.Dtos;
+﻿using Asp.Versioning;
+using CleanTemplate.Core.Dtos;
 using CleanTemplate.Core.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CleanTemplate.Presentation.Controllers.V1._0._0
+namespace CleanTemplate.Presentation.Controllers.V1._0
 {
     [ApiController]
-    [Route("api/v1.0.0/books")]
+    [Route("api/v{version:apiVersion}/books")]
+    [ApiVersion("1.0")]
     [Produces("application/json")]
     public class BooksController : ControllerBase
     {
