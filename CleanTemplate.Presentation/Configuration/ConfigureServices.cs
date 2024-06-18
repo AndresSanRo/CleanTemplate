@@ -7,6 +7,7 @@ using CleanTemplate.Core.Services;
 using CleanTemplate.Infrastructure.Context;
 using CleanTemplate.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace CleanTemplate.Presentation
 {
@@ -92,6 +93,33 @@ namespace CleanTemplate.Presentation
             if (configuration["ApplicationInsights:InstrumentationKey"] != null)
             {
                 services.AddApplicationInsightsTelemetry();
+            }
+
+            return services;
+        }
+
+        public static IServiceCollection AddCustomHealthChecks(this IServiceCollection services, IConfiguration configuration)
+        {
+            if (configuration.GetConnectionString("Database") != null)
+            {
+                services.AddHealthChecks()
+                            .AddSqlServer(
+                                configuration.GetConnectionString("Database")!, 
+                                healthQuery: "select 1", 
+                                name: "Sql Server", 
+                                failureStatus: HealthStatus.Unhealthy,
+                                tags: ["Feedback", "Database"]);
+               services.AddHealthChecksUI(setup =>
+               {
+                   setup.SetEvaluationTimeInSeconds(15);
+                   setup.MaximumHistoryEntriesPerEndpoint(60);
+                   setup.SetApiMaxActiveRequests(1);
+                   setup.AddHealthCheckEndpoint("Feedback", "/api/health");
+               }).AddInMemoryStorage();
+            }
+            else
+            {
+                services.AddHealthChecks();
             }
 
             return services;

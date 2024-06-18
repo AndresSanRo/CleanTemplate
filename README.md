@@ -6,7 +6,8 @@
 - Automapper
 - Entity Framework Core
 - App Insights
-- 
+- Health Check
+
 # To Do
 
 - Do Full CRUD
@@ -17,6 +18,5 @@
 - JWT
 - Fluent Validation
 - Serilog
-- Health Check
 - App Configuration
 - Resilient Http Client
