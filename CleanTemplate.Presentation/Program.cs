@@ -1,5 +1,7 @@
 using CleanTemplate.Presentation;
 using CleanTemplate.Presentation.Configuration;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -24,14 +26,18 @@ builder.Services.AddCustomProblemDetails();
 builder.Services.AddAutoMapper();
 builder.Services.AddVersioning();
 builder.Services.AddApplicationInsights(builder.Configuration);
-
-builder.Services.AddHealthChecks();
+builder.Services.AddCustomHealthChecks(builder.Configuration);
 
 var app = builder.Build();
 
 app.UseStatusCodePages();
 app.UseExceptionHandler("/error");
-app.MapHealthChecks("/health");
+
+app.MapHealthChecks("/api/health", new HealthCheckOptions()
+{
+    Predicate = _ => true,
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
