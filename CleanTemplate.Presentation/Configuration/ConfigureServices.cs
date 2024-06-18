@@ -44,7 +44,7 @@ namespace CleanTemplate.Presentation
 
         public static void AddCustomProblemDetails(this IServiceCollection services)
         {
-            services.AddProblemDetails(options => 
+            services.AddProblemDetails(options =>
                 options.CustomizeProblemDetails = ctx =>
                 {
                     ctx.ProblemDetails.Extensions.Add("trace-id", ctx.HttpContext.TraceIdentifier);
@@ -83,6 +83,16 @@ namespace CleanTemplate.Presentation
                 options.GroupNameFormat = "'v'V.v";
                 options.SubstituteApiVersionInUrl = true;
             });
+
+            return services;
+        }
+
+        public static IServiceCollection AddApplicationInsights(this IServiceCollection services, IConfiguration configuration)
+        {
+            if (configuration["ApplicationInsights:InstrumentationKey"] != null)
+            {
+                services.AddApplicationInsightsTelemetry();
+            }
 
             return services;
         }

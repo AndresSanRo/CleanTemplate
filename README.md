@@ -5,7 +5,8 @@
 - Swagger
 - Automapper
 - Entity Framework Core
-
+- App Insights
+- 
 # To Do
 
 - Do Full CRUD
@@ -15,7 +16,6 @@
 - CI/CD
 - JWT
 - Fluent Validation
-- App Insights
 - Serilog
 - Health Check
 - App Configuration
