@@ -25,10 +25,13 @@ builder.Services.AddAutoMapper();
 builder.Services.AddVersioning();
 builder.Services.AddApplicationInsights(builder.Configuration);
 
+builder.Services.AddHealthChecks();
+
 var app = builder.Build();
 
 app.UseStatusCodePages();
 app.UseExceptionHandler("/error");
+app.MapHealthChecks("/health");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
