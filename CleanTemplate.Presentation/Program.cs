@@ -23,6 +23,7 @@ builder.Services.AddDI();
 builder.Services.AddCustomProblemDetails();
 builder.Services.AddAutoMapper();
 builder.Services.AddVersioning();
+builder.Services.AddApplicationInsights(builder.Configuration);
 
 var app = builder.Build();
 
