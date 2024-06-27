@@ -1,6 +1,7 @@
 ﻿using Asp.Versioning;
 using CleanTemplate.Core.Dtos;
 using CleanTemplate.Core.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanTemplate.Presentation.Controllers.V1._0
@@ -9,6 +10,7 @@ namespace CleanTemplate.Presentation.Controllers.V1._0
     [Route("api/v{version:apiVersion}/books")]
     [ApiVersion("1.0")]
     [Produces("application/json")]
+    [Authorize]
     public class BooksController : ControllerBase
     {
         private readonly IBooksService _booksService;

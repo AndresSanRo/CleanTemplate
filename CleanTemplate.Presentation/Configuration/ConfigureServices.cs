@@ -6,6 +6,7 @@ using CleanTemplate.Core.Interfaces.Services;
 using CleanTemplate.Core.Services;
 using CleanTemplate.Infrastructure.Context;
 using CleanTemplate.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
@@ -104,18 +105,18 @@ namespace CleanTemplate.Presentation
             {
                 services.AddHealthChecks()
                             .AddSqlServer(
-                                configuration.GetConnectionString("Database")!, 
-                                healthQuery: "select 1", 
-                                name: "Sql Server", 
+                                configuration.GetConnectionString("Database")!,
+                                healthQuery: "select 1",
+                                name: "Sql Server",
                                 failureStatus: HealthStatus.Unhealthy,
                                 tags: ["Feedback", "Database"]);
-               services.AddHealthChecksUI(setup =>
-               {
-                   setup.SetEvaluationTimeInSeconds(15);
-                   setup.MaximumHistoryEntriesPerEndpoint(60);
-                   setup.SetApiMaxActiveRequests(1);
-                   setup.AddHealthCheckEndpoint("Feedback", "/api/health");
-               }).AddInMemoryStorage();
+                services.AddHealthChecksUI(setup =>
+                {
+                    setup.SetEvaluationTimeInSeconds(15);
+                    setup.MaximumHistoryEntriesPerEndpoint(60);
+                    setup.SetApiMaxActiveRequests(1);
+                    setup.AddHealthCheckEndpoint("Feedback", "/api/health");
+                }).AddInMemoryStorage();
             }
             else
             {
@@ -123,6 +124,29 @@ namespace CleanTemplate.Presentation
             }
 
             return services;
+        }
+
+        public static void AddCustomAuthentication(this IServiceCollection services, IConfiguration configuration)
+        {
+            var authSettings = configuration.GetSection("AuthSettings");
+
+            services.AddAuthentication(options => { 
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = false;
+                //options.TokenValidationParameters = new TokenValidationParameters
+                //{
+                //    ValidateIssuer = false,
+                //    ValidateAudience = false,
+                //    ValidateLifetime = false,
+                //    ClockSkew = TimeSpan.Zero
+                //};
+            });
         }
     }
 }

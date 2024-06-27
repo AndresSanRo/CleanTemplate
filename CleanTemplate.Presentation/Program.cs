@@ -19,7 +19,7 @@ if (builder.Environment.IsDevelopment())
     builder.Services.AddSwaggerGen();
 }
 
-
+builder.Services.AddCustomAuthentication(builder.Configuration);
 builder.Services.AddDatabaseContext(builder.Configuration);
 builder.Services.AddDI();
 builder.Services.AddCustomProblemDetails();
@@ -39,6 +39,14 @@ app.MapHealthChecks("/api/health", new HealthCheckOptions()
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
 
+// Add CORS configuration
+app.UseCors(options =>
+{
+    options.AllowAnyOrigin()
+           .AllowAnyMethod()
+           .AllowAnyHeader();
+});
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -55,6 +63,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
