@@ -44,7 +44,7 @@ namespace CleanTemplate.Presentation
             return services;
         }
 
-        public static void AddCustomProblemDetails(this IServiceCollection services)
+        public static IServiceCollection AddCustomProblemDetails(this IServiceCollection services)
         {
             services.AddProblemDetails(options =>
                 options.CustomizeProblemDetails = ctx =>
@@ -53,6 +53,7 @@ namespace CleanTemplate.Presentation
                     ctx.ProblemDetails.Extensions.Add("instance", $"{ctx.HttpContext.Request.Method} {ctx.HttpContext.Request.Path}");
                 });
             services.AddExceptionHandler<ProblemDetailsExceptionHandler>();
+            return services;
         }
 
         public static IServiceCollection AddAutoMapper(this IServiceCollection services)
@@ -126,27 +127,24 @@ namespace CleanTemplate.Presentation
             return services;
         }
 
-        public static void AddCustomAuthentication(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddCustomAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
             var authSettings = configuration.GetSection("AuthSettings");
 
-            services.AddAuthentication(options => { 
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
-                options.RequireHttpsMetadata = false;
-                options.SaveToken = false;
-                //options.TokenValidationParameters = new TokenValidationParameters
-                //{
-                //    ValidateIssuer = false,
-                //    ValidateAudience = false,
-                //    ValidateLifetime = false,
-                //    ClockSkew = TimeSpan.Zero
-                //};
+                options.Authority = authSettings.GetValue<string>("Issuer");
+                options.Audience = authSettings.GetValue<string>("Audience");
+                options.RequireHttpsMetadata = authSettings.GetValue<bool>("RequireHttpsMetadata");
             });
+            return services;
+        }
+
+        public static IServiceCollection AddCustomAuthorization(this IServiceCollection services)
+        {
+            services.AddAuthorization();
+            return services;
         }
     }
 }

@@ -19,14 +19,15 @@ if (builder.Environment.IsDevelopment())
     builder.Services.AddSwaggerGen();
 }
 
-builder.Services.AddCustomAuthentication(builder.Configuration);
-builder.Services.AddDatabaseContext(builder.Configuration);
-builder.Services.AddDI();
-builder.Services.AddCustomProblemDetails();
-builder.Services.AddAutoMapper();
-builder.Services.AddVersioning();
-builder.Services.AddApplicationInsights(builder.Configuration);
-builder.Services.AddCustomHealthChecks(builder.Configuration);
+builder.Services.AddCustomAuthentication(builder.Configuration)
+                .AddCustomAuthorization()
+                .AddDatabaseContext(builder.Configuration)
+                .AddDI()
+                .AddCustomProblemDetails()
+                .AddAutoMapper()
+                .AddVersioning()
+                .AddApplicationInsights(builder.Configuration)
+                .AddCustomHealthChecks(builder.Configuration);
 
 var app = builder.Build();
 
