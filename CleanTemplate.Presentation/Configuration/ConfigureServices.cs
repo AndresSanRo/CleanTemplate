@@ -6,6 +6,7 @@ using CleanTemplate.Core.Interfaces.Services;
 using CleanTemplate.Core.Services;
 using CleanTemplate.Infrastructure.Context;
 using CleanTemplate.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
@@ -43,7 +44,7 @@ namespace CleanTemplate.Presentation
             return services;
         }
 
-        public static void AddCustomProblemDetails(this IServiceCollection services)
+        public static IServiceCollection AddCustomProblemDetails(this IServiceCollection services)
         {
             services.AddProblemDetails(options =>
                 options.CustomizeProblemDetails = ctx =>
@@ -52,6 +53,7 @@ namespace CleanTemplate.Presentation
                     ctx.ProblemDetails.Extensions.Add("instance", $"{ctx.HttpContext.Request.Method} {ctx.HttpContext.Request.Path}");
                 });
             services.AddExceptionHandler<ProblemDetailsExceptionHandler>();
+            return services;
         }
 
         public static IServiceCollection AddAutoMapper(this IServiceCollection services)
@@ -104,24 +106,44 @@ namespace CleanTemplate.Presentation
             {
                 services.AddHealthChecks()
                             .AddSqlServer(
-                                configuration.GetConnectionString("Database")!, 
-                                healthQuery: "select 1", 
-                                name: "Sql Server", 
+                                configuration.GetConnectionString("Database")!,
+                                healthQuery: "select 1",
+                                name: "Sql Server",
                                 failureStatus: HealthStatus.Unhealthy,
                                 tags: ["Feedback", "Database"]);
-               services.AddHealthChecksUI(setup =>
-               {
-                   setup.SetEvaluationTimeInSeconds(15);
-                   setup.MaximumHistoryEntriesPerEndpoint(60);
-                   setup.SetApiMaxActiveRequests(1);
-                   setup.AddHealthCheckEndpoint("Feedback", "/api/health");
-               }).AddInMemoryStorage();
+                services.AddHealthChecksUI(setup =>
+                {
+                    setup.SetEvaluationTimeInSeconds(15);
+                    setup.MaximumHistoryEntriesPerEndpoint(60);
+                    setup.SetApiMaxActiveRequests(1);
+                    setup.AddHealthCheckEndpoint("Feedback", "/api/health");
+                }).AddInMemoryStorage();
             }
             else
             {
                 services.AddHealthChecks();
             }
 
+            return services;
+        }
+
+        public static IServiceCollection AddCustomAuthentication(this IServiceCollection services, IConfiguration configuration)
+        {
+            var authSettings = configuration.GetSection("AuthSettings");
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.Authority = authSettings.GetValue<string>("Issuer");
+                options.Audience = authSettings.GetValue<string>("Audience");
+                options.RequireHttpsMetadata = authSettings.GetValue<bool>("RequireHttpsMetadata");
+            });
+            return services;
+        }
+
+        public static IServiceCollection AddCustomAuthorization(this IServiceCollection services)
+        {
+            services.AddAuthorization();
             return services;
         }
     }

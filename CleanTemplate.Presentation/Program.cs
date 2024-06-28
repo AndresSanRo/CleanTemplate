@@ -19,14 +19,18 @@ if (builder.Environment.IsDevelopment())
     builder.Services.AddSwaggerGen();
 }
 
-
-builder.Services.AddDatabaseContext(builder.Configuration);
-builder.Services.AddDI();
-builder.Services.AddCustomProblemDetails();
-builder.Services.AddAutoMapper();
-builder.Services.AddVersioning();
-builder.Services.AddApplicationInsights(builder.Configuration);
-builder.Services.AddCustomHealthChecks(builder.Configuration);
+builder.Host.ConfigureServices((context, services) =>
+{
+    services.AddDatabaseContext(context.Configuration)
+            .AddDI()
+            .AddCustomProblemDetails()
+            .AddAutoMapper()
+            .AddVersioning()
+            .AddApplicationInsights(context.Configuration)
+            .AddCustomHealthChecks(context.Configuration)
+            .AddCustomAuthentication(context.Configuration)
+            .AddCustomAuthorization();
+});
 
 var app = builder.Build();
 
@@ -55,6 +59,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
