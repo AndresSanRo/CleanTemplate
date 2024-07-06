@@ -29,6 +29,7 @@ builder.Host.ConfigureServices((context, services) =>
             .AddApplicationInsights(context.Configuration)
             .AddCustomHealthChecks(context.Configuration)
             .AddCustomAuthentication(context.Configuration)
+            .AddCorsConfiguration(context.Configuration)
             .AddCustomAuthorization();
 });
 
@@ -58,6 +59,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();

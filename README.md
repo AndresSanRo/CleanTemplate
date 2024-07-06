@@ -8,10 +8,10 @@
 - App Insights
 - Health Check
 - JWT validation
+- CORS config
 
 # To Do
 
-- CORS config
 - Do Full CRUD
 - Unit Test
 - Functional Tests
