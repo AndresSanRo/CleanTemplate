@@ -146,5 +146,21 @@ namespace CleanTemplate.Presentation
             services.AddAuthorization();
             return services;
         }
+
+        public static IServiceCollection AddCorsConfiguration(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddCors(options =>
+            {
+                var corsPolicyName = configuration.GetSection("CorsSettings:PolicyName").Get<string>()!;
+                options.AddDefaultPolicy(policy =>
+                {
+                    policy.WithOrigins(configuration.GetSection("CorsSettings:AllowedOrigins").Get<string[]>()!)
+                          .AllowAnyMethod()
+                          .AllowAnyHeader();
+                });
+            });
+
+            return services;
+        }
     }
 }
