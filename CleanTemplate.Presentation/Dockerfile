@@ -12,7 +12,6 @@ WORKDIR /src
 COPY ["Directory.Packages.props", "/"]
 COPY ["Directory.Build.props", "/"]
 COPY ["nuget.config", "/"]
-COPY ["CleanTemplate.sln", "./"]
 COPY ["CleanTemplate.Presentation/CleanTemplate.Presentation.csproj", "CleanTemplate.Presentation/"]
 COPY ["CleanTemplate.Core/CleanTemplate.Core.csproj", "CleanTemplate.Core/"]
 COPY ["CleanTemplate.Infrastructure/CleanTemplate.Infrastructure.csproj", "CleanTemplate.Infrastructure/"]
