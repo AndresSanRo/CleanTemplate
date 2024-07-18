@@ -9,13 +9,13 @@
 - Health Check
 - JWT validation
 - CORS config
+- Docker
 
 # To Do
 
 - Do Full CRUD
 - Unit Test
 - Functional Tests
-- Docker
 - CI/CD
 - Fluent Validation
 - Serilog
